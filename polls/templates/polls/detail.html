@@ -16,9 +16,6 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
     <style>
         body {
           padding-top: 50px;
@@ -53,29 +50,38 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>List of Questions</h1>
-
-                {% if questions_list %}
-                    <table class="table table-striped">
-                        <thead>
-                            <th>Question Text</th>
-                            <th>Date</th>
-                        </thead>
-
-                        <tbody>
-                            {% for question in questions_list %}
-                                <tr>
-                                    <td> <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></td>
-                                    <td> {{ question.publication_date }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                {% else  %}
-                    <p class="text-center">Não existem questões cadastradas.</p>
+                <br>
+                {% if question %}
+                    <p class="alert alert-info">{{ question }}</p>
+                {% else %}
+                    <p class="alert alert-danger">Nenhuma questão foi encontrada com este id!</p>
                 {% endif %}
             </div>
         </div>
+
+        {% if question %}
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Choices</h2>
+
+                    {% if question.choice_set.all %}
+                        {% for choice in question.choice_set.all %}
+                            <div class="radio">
+                              <label>
+                                <input type="radio" name="optionsRadio" id="option{{ choice.id }}" value="option{{ choice.id }}">
+                                {{ choice.choice_text }}
+                              </label>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="alert alert-danger">Não existem escolhas cadastradas para esta questão!</p>
+                    {% endif %}
+
+                </div>
+            </div>
+        {% endif %}
+
+
 
 
     </div><!-- /.container -->
@@ -85,5 +91,9 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
   </body>
 </html>
